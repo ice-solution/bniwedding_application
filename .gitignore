@@ -63,17 +63,19 @@ temp/
 *.tmp
 *.temp
 
-# Personal/Private files
+# Personal/Private files (Google Cloud credentials)
+bniwedding-*.json
+*-c5eeb4cf91bf.json
 *.json
 !package.json
+!package-lock.json
 !tsconfig.json
 !tsconfig.node.json
 !nodemon.json
 !postcss.config.js
 !tailwind.config.js
 !vite.config.ts
-bniwedding-*.json
-*-c5eeb4cf91bf.json
+!.eslintrc.cjs
 
 # Database
 *.db
