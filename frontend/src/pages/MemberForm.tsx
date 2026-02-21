@@ -74,7 +74,6 @@ export default function MemberForm() {
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
