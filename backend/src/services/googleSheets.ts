@@ -32,6 +32,7 @@ interface ApplicationData {
   email: string;
   yearsOfMembership: number;
   isGoldMember: 'yes' | 'no';
+  isDnA: 'yes' | 'no';
   weddingCategory: string;
   weddingServices: string;
   serviceArea?: string;
@@ -42,6 +43,19 @@ interface ApplicationData {
   websiteLink?: string;
   bniMemberDiscount?: string;
   referrer?: string;
+  bniWeddingBusinessCount?: number;
+  bniBusinessAmount?: string;
+  bnwgGoals?: string;
+  interestedInAdmin?: 'yes' | 'no';
+  files?: Array<{
+    fileKey: string;
+    fileUrl: string;
+    fileName: string;
+    fileSize: number;
+    mimeType: string;
+  }>;
+  logoFileKey?: string;
+  logoFileUrl?: string;
 }
 
 /**
@@ -68,6 +82,7 @@ export async function appendToGoogleSheet(
     data.email,
     `${data.yearsOfMembership} 年`,
     data.isGoldMember === 'yes' ? '是' : '否',
+    data.isDnA === 'yes' ? 'Yes' : 'No',
     data.weddingCategory,
     data.weddingServices,
     data.serviceArea || '',
@@ -76,6 +91,12 @@ export async function appendToGoogleSheet(
     data.facebookLink || '',
     data.instagramLink || '',
     data.websiteLink || '',
+    data.logoFileUrl || '',
+    data.files?.map(f => f.fileUrl).join('; ') || '',
+    data.bniWeddingBusinessCount?.toString() || '',
+    data.bniBusinessAmount || '',
+    data.bnwgGoals || '',
+    data.interestedInAdmin === 'yes' ? 'Yes' : data.interestedInAdmin === 'no' ? 'No' : '',
     data.bniMemberDiscount || '',
     data.referrer || '',
   ];
@@ -120,6 +141,7 @@ export async function appendToGoogleSheet(
         '會員電郵',
         '入會年資',
         '金章會員',
+        'D&A',
         '婚宴分類',
         '婚宴服務描述',
         '服務區域',
@@ -128,13 +150,19 @@ export async function appendToGoogleSheet(
         'Facebook 連結',
         'Instagram 連結',
         '網站連結',
+        'Logo 連結',
+        '綠燈證明文件連結',
+        '在 BNI 所獲得的婚禮相關業務宗數',
+        '生意成交金額',
+        '最期望透過 BNI Wedding Group 完成的目標',
+        '會否有興趣將來成為 Admin Group 成員',
         'BNI 會員折扣',
         '介紹人',
       ];
 
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `'${actualSheetName}'!A1:S1`,
+        range: `'${actualSheetName}'!A1:Z1`,
         valueInputOption: 'RAW',
         requestBody: {
           values: [headers],

@@ -5,19 +5,22 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test:drive": "tsx src/scripts/test-drive.ts"
   },
   "dependencies": {
     "express": "^4.21.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "googleapis": "^144.0.0",
+    "multer": "^1.4.5-lts.1",
     "xlsx": "^0.18.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/cors": "^2.8.17",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.10.1",
     "nodemon": "^3.1.9",
     "tsx": "^4.19.2",

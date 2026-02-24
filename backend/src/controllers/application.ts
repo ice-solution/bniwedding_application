@@ -13,6 +13,7 @@ const applicationSchema = z.object({
   email: z.string().email(),
   yearsOfMembership: z.number().min(1).max(25),
   isGoldMember: z.enum(['yes', 'no']),
+  isDnA: z.enum(['yes', 'no']),
   weddingCategory: z.string().min(1),
   weddingServices: z.string().min(10),
   serviceArea: z.string().optional(),
@@ -23,6 +24,20 @@ const applicationSchema = z.object({
   websiteLink: z.string().url().optional().or(z.literal('')),
   bniMemberDiscount: z.string().optional(),
   referrer: z.string().optional(),
+  bniWeddingBusinessCount: z.number().optional(),
+  bniBusinessAmount: z.string().optional(),
+  bnwgGoals: z.string().optional(),
+  interestedInAdmin: z.enum(['yes', 'no']).optional(),
+  // 檔案相關欄位（可選）
+  files: z.array(z.object({
+    fileKey: z.string(),
+    fileUrl: z.string(),
+    fileName: z.string(),
+    fileSize: z.number(),
+    mimeType: z.string(),
+  })).optional(),
+  logoFileKey: z.string().optional(),
+  logoFileUrl: z.string().optional(),
 });
 
 export async function submitApplication(req: Request, res: Response) {
