@@ -2,10 +2,14 @@ module.exports = {
   apps: [
     {
       name: 'bniwedding-backend',
-      script: './dist/index.js',
+      // 直接運行 TypeScript，無需編譯
+      // 使用 npx 確保能找到項目中的 tsx
+      script: 'npx',
+      args: 'tsx src/index.ts',
+      interpreter: 'node',
       instances: 1,
       exec_mode: 'fork',
-      watch: false,
+      watch: false, // 設為 true 可自動重載（但建議使用 nodemon 開發）
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
@@ -23,9 +27,9 @@ module.exports = {
       autorestart: true,
       max_restarts: 10,
       min_uptime: '10s',
-      // 如果使用 TypeScript 直接運行（開發模式）
-      // script: 'tsx',
-      // args: 'src/index.ts',
+      // 如果需要監聽文件變化自動重載（開發模式）
+      // watch: ['src'],
+      // ignore_watch: ['node_modules', 'logs', 'uploads', 'dist'],
     },
   ],
 };

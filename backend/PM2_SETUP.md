@@ -28,14 +28,9 @@ npm install -g pm2
 
 ## PM2 使用方式
 
-### 1. 編譯項目（首次運行或代碼更新後）
+### 1. 啟動服務（無需編譯）
 
-```bash
-cd backend
-npm run build
-```
-
-### 2. 啟動服務
+PM2 配置已設置為直接運行 TypeScript，無需先編譯：
 
 ```bash
 # 方式 1: 使用 npm 腳本
@@ -44,6 +39,8 @@ npm run start:pm2
 # 方式 2: 直接使用 PM2
 pm2 start ecosystem.config.cjs
 ```
+
+**注意**：現在 PM2 會直接運行 `tsx src/index.ts`，無需先執行 `npm run build`。
 
 ### 3. 查看狀態
 
@@ -127,27 +124,41 @@ pm2 reload bniwedding-backend
 
 ## 更新代碼後的流程
 
-1. **編譯新代碼**
-   ```bash
-   cd backend
-   npm run build
-   ```
+由於 PM2 直接運行 TypeScript，更新代碼後只需重啟：
 
-2. **重啟 PM2 服務**
-   ```bash
-   npm run restart:pm2
-   # 或
-   pm2 restart bniwedding-backend
-   ```
+```bash
+npm run restart:pm2
+# 或
+pm2 restart bniwedding-backend
+```
+
+**無需編譯**：PM2 會直接使用 `tsx` 運行 TypeScript 源碼。
+
+### 可選：啟用自動重載
+
+如果想讓 PM2 自動監聽文件變化並重載，可以修改 `ecosystem.config.cjs`：
+
+```javascript
+watch: ['src'],
+ignore_watch: ['node_modules', 'logs', 'uploads', 'dist'],
+```
+
+然後重啟 PM2：
+```bash
+pm2 restart bniwedding-backend --update-env
+```
 
 ## 配置文件說明
 
 `ecosystem.config.cjs` 配置說明：
 
 - `name`: PM2 進程名稱
-- `script`: 要運行的腳本路徑（編譯後的 `dist/index.js`）
+- `script`: 要運行的命令（`tsx`）
+- `args`: 命令參數（`src/index.ts`）
+- `interpreter`: 解釋器（`node`）
 - `instances`: 實例數量（1 = 單實例）
 - `exec_mode`: 執行模式（`fork` = 單進程）
+- `watch`: 是否監聽文件變化（`false` = 不監聽，設為 `true` 可自動重載）
 - `max_memory_restart`: 內存超過 500MB 時自動重啟
 - `env`: 環境變數（生產環境）
 - `error_file` / `out_file`: 日誌文件路徑
@@ -173,9 +184,9 @@ PM2 會從以下位置讀取環境變數（按優先級）：
 
 ### 服務無法啟動
 
-1. 檢查是否已編譯：
+1. 檢查 `tsx` 是否已安裝：
    ```bash
-   ls -la dist/index.js
+   npm list tsx
    ```
 
 2. 檢查日誌：
@@ -186,6 +197,11 @@ PM2 會從以下位置讀取環境變數（按優先級）：
 3. 檢查端口是否被占用：
    ```bash
    lsof -i:6137
+   ```
+
+4. 手動測試運行：
+   ```bash
+   npm run dev:direct
    ```
 
 ### 服務頻繁重啟
@@ -227,15 +243,14 @@ cd backend
 # 2. 安裝依賴（首次或更新後）
 npm install
 
-# 3. 編譯 TypeScript
-npm run build
-
-# 4. 啟動 PM2（如果還沒啟動）
+# 3. 啟動 PM2（直接運行 TypeScript，無需編譯）
 npm run start:pm2
 
-# 5. 檢查狀態
+# 4. 檢查狀態
 pm2 status
 
-# 6. 查看日誌確認正常運行
+# 5. 查看日誌確認正常運行
 pm2 logs bniwedding-backend --lines 20
 ```
+
+**注意**：現在無需執行 `npm run build`，PM2 會直接運行 TypeScript 源碼。
