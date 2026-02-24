@@ -6,6 +6,11 @@
     "dev": "nodemon",
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:pm2": "pm2 start ecosystem.config.cjs",
+    "stop:pm2": "pm2 stop bniwedding-backend",
+    "restart:pm2": "pm2 restart bniwedding-backend",
+    "delete:pm2": "pm2 delete bniwedding-backend",
+    "logs:pm2": "pm2 logs bniwedding-backend",
     "test:drive": "tsx src/scripts/test-drive.ts"
   },
   "dependencies": {
