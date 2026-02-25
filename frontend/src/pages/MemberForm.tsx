@@ -153,7 +153,7 @@ export default function MemberForm() {
         });
       }
 
-      // 上傳 Logo 檔案（如果有）
+      // 上傳 Company Logo 檔案（如果有）
       let logoData: { logoFileKey?: string; logoFileUrl?: string } = {};
       if (logoFile) {
         const logoFormData = new FormData();
@@ -165,7 +165,7 @@ export default function MemberForm() {
         });
 
         if (!logoUploadResponse.ok) {
-          throw new Error('Logo 上傳失敗');
+          throw new Error('Company Logo 上傳失敗');
         }
 
         const { fileKey, fileUrl } = await logoUploadResponse.json();
@@ -575,12 +575,12 @@ export default function MemberForm() {
                 </div>
               </div>
 
-              {/* Logo 上傳 */}
+              {/* Company Logo 上傳 */}
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold border-b pb-2">上傳 Logo</h3>
+                <h3 className="text-xl font-semibold border-b pb-2">上傳 Company Logo</h3>
                 <div className="space-y-2">
                   <Label htmlFor="logoFile">
-                    白色/透明 Logo
+                    白色/透明 Company Logo
                   </Label>
                   <div className="flex items-center gap-4">
                     <Button
@@ -590,7 +590,7 @@ export default function MemberForm() {
                       className="gap-2"
                     >
                       <Upload className="w-4 h-4" />
-                      選擇 Logo 檔案
+                      選擇 Company Logo 檔案
                     </Button>
                     {logoFile && (
                       <span className="text-sm text-muted-foreground">
@@ -606,11 +606,11 @@ export default function MemberForm() {
                       const file = e.target.files?.[0];
                       if (file) {
                         if (file.size > 16 * 1024 * 1024) {
-                          toast.error('Logo 檔案大小不能超過 16MB');
+                          toast.error('Company Logo 檔案大小不能超過 16MB');
                           return;
                         }
                         setLogoFile(file);
-                        toast.success(`已選擇 Logo: ${file.name}`);
+                        toast.success(`已選擇 Company Logo: ${file.name}`);
                       }
                     }}
                     className="hidden"

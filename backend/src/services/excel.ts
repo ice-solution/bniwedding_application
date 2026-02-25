@@ -63,7 +63,7 @@ export async function createExcelFromData(data: ApplicationData): Promise<Buffer
     ['Facebook 連結', data.facebookLink || ''],
     ['Instagram 連結', data.instagramLink || ''],
     ['網站連結', data.websiteLink || ''],
-    ['Logo 連結', data.logoFileUrl || ''],
+    ['Company Logo 連結', data.logoFileUrl || ''],
     ['綠燈證明文件連結', data.files?.map(f => f.fileUrl).join('; ') || ''],
     ['在 BNI 所獲得的婚禮相關業務宗數', data.bniWeddingBusinessCount?.toString() || ''],
     ['生意成交金額', data.bniBusinessAmount || ''],

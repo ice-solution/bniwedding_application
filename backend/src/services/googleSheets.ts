@@ -155,7 +155,7 @@ export async function appendToGoogleSheet(
         'Facebook 連結',
         'Instagram 連結',
         '網站連結',
-        'Logo 連結',
+        'Company Logo 連結',
         '綠燈證明文件連結',
         '在 BNI 所獲得的婚禮相關業務宗數',
         '生意成交金額',
