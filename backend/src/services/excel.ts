@@ -1,7 +1,8 @@
 import * as XLSX from 'xlsx';
 
 interface ApplicationData {
-  englishName: string;
+  englishFirstName: string;
+  englishLastName: string;
   companyName?: string;
   chapter: string;
   profession: string;
@@ -43,7 +44,9 @@ export async function createExcelFromData(data: ApplicationData): Promise<Buffer
   const worksheetData = [
     ['欄位', '內容'],
     ['提交時間', new Date().toLocaleString('zh-TW')],
-    ['英文名稱', data.englishName],
+    ['姓', data.englishLastName],
+    ['名', data.englishFirstName],
+    ['全名', `${data.englishLastName} ${data.englishFirstName}`],
     ['公司/品牌名稱', data.companyName || ''],
     ['所屬分會', data.chapter],
     ['專業領域', data.profession],

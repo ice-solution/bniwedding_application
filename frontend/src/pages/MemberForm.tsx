@@ -43,7 +43,8 @@ const WEDDING_CATEGORIES = [
 ];
 
 const formSchema = z.object({
-  englishName: z.string().min(1, '請輸入英文名稱'),
+  englishFirstName: z.string().min(1, '請輸入名'),
+  englishLastName: z.string().min(1, '請輸入姓'),
   companyName: z.string().optional(),
   chapter: z.string().min(1, '請選擇所屬分會'),
   profession: z.string().min(1, '請輸入專業領域'),
@@ -236,16 +237,30 @@ export default function MemberForm() {
                 <h3 className="text-xl font-semibold border-b pb-2">基本資訊</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="englishName">
-                      英文名稱 <span className="text-destructive">*</span>
+                    <Label htmlFor="englishLastName">
+                      姓 <span className="text-destructive">*</span>
                     </Label>
                     <Input
-                      id="englishName"
-                      {...register('englishName')}
-                      placeholder="例如：John Doe"
+                      id="englishLastName"
+                      {...register('englishLastName')}
+                      placeholder="例如：Doe"
                     />
-                    {errors.englishName && (
-                      <p className="text-sm text-destructive">{errors.englishName.message}</p>
+                    {errors.englishLastName && (
+                      <p className="text-sm text-destructive">{errors.englishLastName.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="englishFirstName">
+                      名 <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      id="englishFirstName"
+                      {...register('englishFirstName')}
+                      placeholder="例如：John"
+                    />
+                    {errors.englishFirstName && (
+                      <p className="text-sm text-destructive">{errors.englishFirstName.message}</p>
                     )}
                   </div>
 

@@ -5,7 +5,8 @@ import { appendToGoogleSheet } from '../services/googleSheets.js';
 import { z } from 'zod';
 
 const applicationSchema = z.object({
-  englishName: z.string().min(1),
+  englishFirstName: z.string().min(1),
+  englishLastName: z.string().min(1),
   companyName: z.string().optional(),
   chapter: z.string().min(1),
   profession: z.string().min(1),
@@ -61,7 +62,7 @@ export async function submitApplication(req: Request, res: Response) {
       const excelBuffer = await createExcelFromData(data);
       const fileId = await uploadToGoogleDrive(
         excelBuffer,
-        `${data.englishName}_${Date.now()}.xlsx`
+        `${data.englishFirstName}_${data.englishLastName}_${Date.now()}.xlsx`
       );
 
       res.json({

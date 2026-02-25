@@ -24,7 +24,8 @@ function getSheetsClient() {
 }
 
 interface ApplicationData {
-  englishName: string;
+  englishFirstName: string;
+  englishLastName: string;
   companyName?: string;
   chapter: string;
   profession: string;
@@ -74,7 +75,9 @@ export async function appendToGoogleSheet(
   // 準備資料行
   const row = [
     new Date().toLocaleString('zh-TW'), // 提交時間
-    data.englishName,
+    data.englishLastName,
+    data.englishFirstName,
+    `${data.englishLastName} ${data.englishFirstName}`, // 完整姓名（姓在前）
     data.companyName || '',
     data.chapter,
     data.profession,
@@ -123,7 +126,7 @@ export async function appendToGoogleSheet(
         spreadsheetId,
         range: `'${actualSheetName}'!A1:Z1`,
       });
-      hasHeaders = response.data.values && response.data.values.length > 0 && response.data.values[0].length > 0;
+      hasHeaders = !!(response.data.values && response.data.values.length > 0 && response.data.values[0].length > 0);
     } catch (error) {
       // 如果讀取失敗（可能是空的工作表），視為沒有標題
       hasHeaders = false;
@@ -133,7 +136,9 @@ export async function appendToGoogleSheet(
       // 建立標題行
       const headers = [
         '提交時間',
-        '英文名稱',
+        '姓',
+        '名',
+        '全名',
         '公司/品牌名稱',
         '所屬分會',
         '專業領域',
