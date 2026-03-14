@@ -226,9 +226,15 @@ export default function MemberForm() {
             <CardTitle className="text-3xl md:text-4xl font-serif text-primary">
               會員資訊收集表
             </CardTitle>
-            <CardDescription className="text-base mt-2">
-              請填寫以下資訊，我們將為您提供最專業的婚宴服務支援
+            <CardDescription className="text-base mt-2 block space-y-1">
+              <span className="block">請填寫以下資訊</span>
+              <span className="block">我們將為您提供最專業的婚宴服務支援</span>
             </CardDescription>
+            <img
+              src="/logo.jpg"
+              alt="BNI Wedding Group 婚禮組"
+              className="mx-auto mt-2 max-h-24 object-contain"
+            />
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
