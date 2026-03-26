@@ -119,12 +119,12 @@ export async function appendToGoogleSheet(
     const actualSheetName = firstSheet.properties?.title || sheetName;
     
     // 如果是第一次寫入，先建立標題行
-    // 使用 A1:Z1 格式來讀取第一行
+    // 注意：headers/row 目前是 28 欄，範圍至少要到 AB 欄（A..AB）
     let hasHeaders = false;
     try {
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: `'${actualSheetName}'!A1:Z1`,
+        range: `'${actualSheetName}'!A1:AB1`,
       });
       hasHeaders = !!(response.data.values && response.data.values.length > 0 && response.data.values[0].length > 0);
     } catch (error) {
@@ -167,7 +167,7 @@ export async function appendToGoogleSheet(
 
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `'${actualSheetName}'!A1:Z1`,
+        range: `'${actualSheetName}'!A1:AB1`,
         valueInputOption: 'RAW',
         requestBody: {
           values: [headers],
@@ -178,7 +178,7 @@ export async function appendToGoogleSheet(
     // 新增資料行
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `'${actualSheetName}'!A:A`,
+      range: `'${actualSheetName}'!A:AB`,
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
       requestBody: {

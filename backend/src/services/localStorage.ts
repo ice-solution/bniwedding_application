@@ -44,7 +44,8 @@ function generateRandomFileName(originalFileName: string): string {
  */
 export async function uploadToLocalStorage(
   buffer: Buffer,
-  fileName: string
+  fileName: string,
+  baseUrl?: string
 ): Promise<{ filePath: string; fileUrl: string; fileKey: string; originalFileName: string }> {
   await ensureUploadDir();
 
@@ -67,10 +68,14 @@ export async function uploadToLocalStorage(
   
   // 生成訪問 URL（通過後端服務器）
   const fileKey = `uploads/${year}-${month}-${day}/${randomFileName}`;
-  const baseUrl = process.env.API_BASE_URL || 'http://localhost:6137';
+  const resolvedBaseUrl =
+    baseUrl ||
+    process.env.API_BASE_URL ||
+    process.env.DOMAIN ||
+    'http://localhost:6137';
   // URL 編碼文件名以確保安全
   const encodedFileName = encodeURIComponent(randomFileName);
-  const fileUrl = `${baseUrl}/static/uploads/${year}-${month}-${day}/${encodedFileName}`;
+  const fileUrl = `${resolvedBaseUrl}/static/uploads/${year}-${month}-${day}/${encodedFileName}`;
   
   console.log(`✅ 文件已上傳到本地存儲: ${filePath}`);
   console.log(`   原始文件名: ${fileName}`);

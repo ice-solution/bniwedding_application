@@ -62,9 +62,16 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       } catch (error) {
         console.error('Google Drive 上傳失敗，嘗試使用本地存儲:', error);
         // 如果 Google Drive 失敗，回退到本地存儲
+        const forwardedProto = (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim();
+        const forwardedHost = (req.headers['x-forwarded-host'] as string | undefined)?.split(',')[0]?.trim();
+        const host = forwardedHost || req.get('host');
+        const proto = forwardedProto || req.protocol;
+        const baseUrl = host ? `${proto}://${host}` : undefined;
+
         const { fileKey, fileUrl, originalFileName } = await uploadToLocalStorage(
           Buffer.from(file.buffer),
-          file.originalname
+          file.originalname,
+          baseUrl
         );
 
         res.json({
@@ -78,9 +85,16 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       }
     } else {
       // 使用本地存儲
+      const forwardedProto = (req.headers['x-forwarded-proto'] as string | undefined)?.split(',')[0]?.trim();
+      const forwardedHost = (req.headers['x-forwarded-host'] as string | undefined)?.split(',')[0]?.trim();
+      const host = forwardedHost || req.get('host');
+      const proto = forwardedProto || req.protocol;
+      const baseUrl = host ? `${proto}://${host}` : undefined;
+
       const { fileKey, fileUrl, originalFileName } = await uploadToLocalStorage(
         Buffer.from(file.buffer),
-        file.originalname
+        file.originalname,
+        baseUrl
       );
 
       res.json({
